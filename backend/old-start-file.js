@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('./lib/logger');
 
-var items = require('./routes/items');
+var items = require('./routes/old-route-file');
 
 var app = express();
 var log = logger(app);

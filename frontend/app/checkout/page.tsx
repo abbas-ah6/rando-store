@@ -60,9 +60,9 @@ const Checkout = () => {
     };
 
     return (
-        <div className="min-h-screen flex bg-gray-100 container mx-auto">
+        <div className="min-h-screen flex bg-gray-100 container mx-auto lg:flex-row flex-col-reverse">
             {!submitted && (
-                <section className="w-1/2 bg-white p-10 shadow-md">
+                <section className="lg:w-1/2 w-full bg-white p-10 shadow-md">
                     <h2 className="text-2xl font-semibold mb-2">Delivery Information</h2>
                     {cart.length === 0 && <p className='text-red-500'>Please add items to your cart before proceeding to checkout!</p>}
                     <form onSubmit={handleSubmit} className="space-y-5 mt-6">
@@ -167,7 +167,7 @@ const Checkout = () => {
                     </div>
                 </section>
             ) : (
-                <section className="w-1/2 bg-gray-50 p-10 shadow-inner overflow-y-auto">
+                <section className="lg:w-1/2 w-full bg-gray-50 p-10 shadow-inner overflow-y-auto">
                     <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
 
                     <div className="space-y-4">
@@ -200,7 +200,7 @@ const Checkout = () => {
                             >
                                 <div className="relative w-20 h-20 rounded overflow-hidden">
                                     <Image
-                                        src={`${BASE_URL}/${item.img}`}
+                                        src={item.img.startsWith('/img/') ? `${BASE_URL}/${item.img}` : item.img}
                                         alt={item.name}
                                         fill
                                         className="object-cover"

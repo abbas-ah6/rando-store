@@ -4,6 +4,7 @@ import useCart from '@/hooks/useCart';
 import Image from 'next/image';
 import { X, Trash2 } from 'lucide-react';
 import CustomLink from '../CustomLink/customLink';
+import { BASE_URL } from '@/utils/constants';
 
 const CartSidebar = () => {
     const {
@@ -32,7 +33,7 @@ const CartSidebar = () => {
                 {cart.map((item) => (
                     <div key={item.id} className="flex gap-4 items-center">
                         <Image
-                            src={`http://localhost:8000${item.img}`}
+                            src={item.img.startsWith('/img/') ? `${BASE_URL}${item.img}` : item.img}
                             alt={item.name}
                             width={60}
                             height={60}

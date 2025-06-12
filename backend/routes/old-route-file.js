@@ -4,6 +4,10 @@ var _ = require('lodash');
 var logger = require('../lib/logger');
 var log = logger();
 
+const fs = require("fs");
+const path = require("path");
+
+const dataFilePath = path.join(__dirname, "../init_data.json");
 var items = require('../init_data.json').data;
 var curId = _.size(items);
 
@@ -14,12 +18,23 @@ router.get('/', function (req, res) {
 
 /* Create a new item */
 router.post('/', function (req, res) {
-    var item = req.body;
+    const item = req.body;
+    let curId = Math.max(...Object.keys(items).map(id => parseInt(id)));
+
     curId += 1;
     item.id = curId;
     items[item.id] = item;
-    log.info('Created item', item);
-    res.json(item);
+
+    const newData = { data: items };
+    fs.writeFile(dataFilePath, JSON.stringify(newData, null, 2), (err) => {
+        if (err) {
+            console.error("Failed to write file:", err);
+            return res.status(500).json({ message: "Failed to save item" });
+        }
+
+        log.info('Created item', item);
+        res.json(item);
+    });
 });
 
 /* Get a specific item by id */

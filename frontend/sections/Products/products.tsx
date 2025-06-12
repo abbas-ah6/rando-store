@@ -12,7 +12,7 @@ const Products: React.FC<TProductsList> = ({ heading, subHeading, showAllProduct
     useEffect(() => {
         async function fetchProducts() {
             try {
-                const res = await axiosInstance.get('/items');
+                const res = await axiosInstance.get('/products');
                 const formatted = Object.values(res.data) as TProduct[];
                 setProducts(formatted);
             } catch (error) {

@@ -8,7 +8,7 @@ const ProductCard: React.FC<TProductCardProps> = ({ product }) => {
         <div className="border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out bg-white">
             <div className="relative w-full aspect-square overflow-hidden rounded-t-lg">
                 <Image
-                    src={`${BASE_URL}/${product.img}`}
+                    src={product.img.startsWith('/img/') ? `${BASE_URL}/${product.img}` : product.img}
                     alt={product.name}
                     fill
                     className="object-cover"

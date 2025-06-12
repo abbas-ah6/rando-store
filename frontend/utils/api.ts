@@ -1,12 +1,12 @@
 import axiosInstance from "./axios";
 
 export const getAllProducts = async () => {
-    const res = await axiosInstance.get('/items');
+    const res = await axiosInstance.get('/products');
     return res.data;
 };
 
 export const getProductById = async (id: string | number) => {
-    const res = await axiosInstance.get(`/items/${id}`);
+    const res = await axiosInstance.get(`/products/${id}`);
     return res.data;
 };
 
@@ -15,7 +15,7 @@ export const createProduct = async (product: {
     price: string;
     img: string;
 }) => {
-    const res = await axiosInstance.post('/items', product);
+    const res = await axiosInstance.post('/products', product);
     return res.data;
 };
 
@@ -23,11 +23,11 @@ export const updateProduct = async (
     id: string | number,
     product: { id: number; name: string; price: string; img: string }
 ) => {
-    const res = await axiosInstance.put(`/items/${id}`, product);
+    const res = await axiosInstance.put(`/products/${id}`, product);
     return res.data;
 };
 
 export const deleteProduct = async (id: string | number) => {
-    const res = await axiosInstance.delete(`/items/${id}`);
+    const res = await axiosInstance.delete(`/product/${id}`);
     return res.data;
 };
