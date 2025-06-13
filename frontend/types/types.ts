@@ -49,3 +49,23 @@ type TProductsList = {
 type TProductCardProps = {
     product: TProduct;
 };
+
+type CartItem = {
+    id: number;
+    name: string;
+    price: number;
+    img: string;
+    quantity?: number;
+};
+
+type CartContextType = {
+    cart: CartItem[];
+    totalItems: number;
+    totalPrice: number;
+    isCartOpen: boolean;
+    addItem: (item: CartItem) => void;
+    removeItem: (id: number) => void;
+    clearCart: () => void;
+    toggleCart: (open: boolean) => void;
+    updateItemQuantity: (id: number, quantity: number) => void;
+};
