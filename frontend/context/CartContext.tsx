@@ -2,10 +2,10 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = createContext<TCartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-    const [cart, setCart] = useState<CartItem[]>([]);
+    const [cart, setCart] = useState<TCartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    const addItem = (item: CartItem) => {
+    const addItem = (item: TCartItem) => {
         setCart(prev => {
             const existing = prev.find(p => p.id === item.id);
             if (existing) {

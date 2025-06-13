@@ -1,5 +1,3 @@
-const express = require('express');
-const router = express.Router();
 const _ = require('lodash');
 const logger = require('../lib/logger');
 const log = logger();
@@ -9,14 +7,13 @@ const path = require("path");
 
 const dataFilePath = path.join(__dirname, "../init_data.json");
 const items = require('../init_data.json').data;
-const curId = _.size(items);
 
-/* GET items listing. */
+/* GET Products listing. */
 exports.getAllProducts = (req, res) => {
     res.json(_.toArray(items));
 }
 
-/* Create a new item */
+/* Create a new Product */
 exports.createNewProduct = (req, res) => {
     const item = req.body;
     let curId = Math.max(...Object.keys(items).map(id => parseInt(id)));
@@ -29,15 +26,15 @@ exports.createNewProduct = (req, res) => {
     fs.writeFile(dataFilePath, JSON.stringify(newData, null, 2), (err) => {
         if (err) {
             console.error("Failed to write file:", err);
-            return res.status(500).json({ message: "Failed to save item" });
+            return res.status(500).json({ message: "Failed to save product" });
         }
 
-        log.info('Created item', item);
+        log.info('Created Product', item);
         res.json(item);
     });
 }
 
-/* Get a specific item by id */
+/* Get a specific Product by id */
 exports.getProductById = (req, res, next) => {
     const item = items[req.params.id];
     if (!item) {
@@ -46,7 +43,7 @@ exports.getProductById = (req, res, next) => {
     res.json(items[req.params.id]);
 }
 
-/* Delete a item by id */
+/* Delete a Product by id */
 exports.deleteProductById = (req, res, next) => {
     const item = items[req.params.id];
     delete items[req.params.id];
@@ -55,7 +52,7 @@ exports.deleteProductById = (req, res, next) => {
     res.json(item);
 }
 
-/* Update a item by id */
+/* Update a Product by id */
 exports.updateProductById = (req, res, next) => {
     const item = req.body;
     if (item.id != req.params.id) {
@@ -64,4 +61,31 @@ exports.updateProductById = (req, res, next) => {
     items[item.id] = item;
     log.info('Updating item', item);
     res.json(item);
+}
+
+/* Search Product by name */
+exports.searchProducts = (req, res) => {
+    const { query } = req.query;
+
+    if (!query) {
+        return res
+            .status(400)
+            .json({ error: true, message: "Search query is required!", })
+    }
+
+    try {
+        const allProducts = Object.values(items);
+        const filteredProducts = allProducts.filter(product =>
+            product.name.toLowerCase().trim().includes(query.toLowerCase().trim())
+        );
+
+        return res
+            .status(200)
+            .json(filteredProducts)
+
+    } catch (error) {
+        return res
+            .status(500)
+            .json({ error: true, message: "Internal Server Error", })
+    }
 }

@@ -1,13 +1,12 @@
 "use client";
 
-import axiosInstance from "@/utils/axios";
+import { createProduct } from "@/utils/api";
 import { useState } from "react";
 
 type ProductForm = {
     name: string;
     price: string;
     img: string;
-    description: string;
 };
 
 export default function AddProductForm() {
@@ -15,7 +14,6 @@ export default function AddProductForm() {
         name: "",
         price: "",
         img: "",
-        description: "",
     });
 
     const [loading, setLoading] = useState(false);
@@ -43,15 +41,14 @@ export default function AddProductForm() {
         }
 
         try {
-            const { data } = await axiosInstance.post("/products", {
+            const data = await createProduct({
                 name: form.name,
                 price: Number(form.price),
                 img: form.img,
-                description: form.description,
-            });
+            })
 
             setMessage(`Product added successfully (ID: ${data.id})`);
-            setForm({ name: "", price: "", img: "", description: "" });
+            setForm({ name: "", price: "", img: "" });
         } catch (error: any) {
             const msg =
                 error?.response?.data?.message || "Error submitting the form. Please try again.";
@@ -65,9 +62,7 @@ export default function AddProductForm() {
         <>
             {message && (
                 <p
-                    className={`mb-4 text-sm font-medium text-purple-500 
-                        }`}
-                >
+                    className={`mb-4 text-sm font-medium text-purple-500 }`}>
                     {message}
                 </p>
             )}
@@ -117,20 +112,6 @@ export default function AddProductForm() {
                         onChange={handleChange}
                         className="w-full border px-3 py-2 rounded"
                         required
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="description" className="block font-semibold mb-1">
-                        Description
-                    </label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        value={form.description}
-                        onChange={handleChange}
-                        rows={3}
-                        className="w-full border px-3 py-2 rounded"
                     />
                 </div>
 

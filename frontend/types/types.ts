@@ -47,25 +47,32 @@ type TProductsList = {
 }
 
 type TProductCardProps = {
-    product: TProduct;
+    product: TProduct
 };
 
-type CartItem = {
-    id: number;
-    name: string;
-    price: number;
-    img: string;
-    quantity?: number;
+type TCartItem = {
+    id: number
+    name: string
+    price: number
+    img: string
+    quantity?: number
 };
 
-type CartContextType = {
-    cart: CartItem[];
-    totalItems: number;
-    totalPrice: number;
-    isCartOpen: boolean;
-    addItem: (item: CartItem) => void;
-    removeItem: (id: number) => void;
-    clearCart: () => void;
-    toggleCart: (open: boolean) => void;
-    updateItemQuantity: (id: number, quantity: number) => void;
+type TCartContextType = {
+    cart: TCartItem[]
+    totalItems: number
+    totalPrice: number
+    isCartOpen: boolean
+    addItem: (item: TCartItem) => void
+    removeItem: (id: number) => void
+    clearCart: () => void
+    toggleCart: (open: boolean) => void
+    updateItemQuantity: (id: number, quantity: number) => void
 };
+
+type TSearchBarProps = {
+    value: string
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    handleSearch: () => void
+    onClearSearch: () => void
+}
